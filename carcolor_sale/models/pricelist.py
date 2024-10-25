@@ -93,7 +93,7 @@ class ProductPricelist(models.Model):
             ('applied_on', 'not in', [
                 '4_product_brand', '5_product_model', '6_product_brand_category']),
             ('pricelist_id', '=', self.id),
-            '|', '|', ('categ_id', '=', False), ('categ_id', 'parent_of', products.categ_id.ids), ('categ_id', '=', products.categ_id.ids),
+            '|', ('categ_id', '=', False), ('categ_id', 'parent_of', products.categ_id.ids),
             '|', ('product_tmpl_id', '=', False), templates_domain,
             '|', ('product_id', '=', False), products_domain,
             '|', ('date_start', '=', False), ('date_start', '<=', date),
@@ -112,11 +112,10 @@ class ProductPricelist(models.Model):
         rules = False
         if products.product_brand_id and products.categ_id:
             domain = [
-                '&',
-                ('applied_on', 'in', [
-                    '4_product_brand', '5_product_model', '6_product_brand_category']),
-                ('product_brand_category_id', 'parent_of', categ.ids), ('product_brand_id', 'in', brand.ids),
-                '|', ('product_brand_id', 'in', brand.ids),
+                '&', '&',
+                ('pricelist_id', '=', self.id),
+                ('applied_on', 'in', ['6_product_brand_category']),
+                '&', ('product_brand_category_id', 'parent_of', categ.ids), ('product_brand_id', 'in', brand.ids),
                 '|', ('date_start', '=', False), ('date_start', '<=', date),
                 '|', ('date_end', '=', False), ('date_end', '>=', date),
                 ]
@@ -127,7 +126,7 @@ class ProductPricelist(models.Model):
             domain = [
                 '&', '&',
                 ('applied_on', 'in', [
-                    '4_product_brand', '5_product_model', '6_product_brand_category']),
+                    '4_product_brand', '5_product_model']),
                 ('pricelist_id', '=', self.id),
                 '|', ('product_model_id', '=', False), ('product_model_id', 'in', model.ids),
                 ('product_brand_id', 'in', brand.ids),
