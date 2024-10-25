@@ -2,14 +2,15 @@
 {
     "name": "Carcolor - Sale",
     "summary": "Personalizzazioni su vendite e listini",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.0.2",
     "category": "Carcolor",
     "website": "",
     "author": "Carcolor",
     "license": "AGPL-3",
     "depends": [
         "sale",
-        "product"
+        "product",
+        "purchase",
     ],
     "data": [
         "security/ir.model.access.csv",

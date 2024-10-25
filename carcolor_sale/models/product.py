@@ -43,3 +43,9 @@ class ProductTemplate(models.Model):
         'product.model',
         string='Product Model',
         ondelete='set null')
+    
+    @api.onchange('seller_ids')
+    def _onchange_seller_ids(self):
+        for record in self:
+            if record.seller_ids:
+                record.list_price = record.seller_ids[0].price
