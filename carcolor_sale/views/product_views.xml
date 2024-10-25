@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_brand_tree_view" model="ir.ui.view">
+        <field name="name">product.brand.tree.view</field>
+        <field name="model">product.brand</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <tree string="Product Brands" editable="top">
+                <field name="name"/>
+                <field name="notes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_brand_view_form" model="ir.ui.view">
+        <field name="name">product.brand.view.form</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+            <form string="Product Brand">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="product_brands_action" model="ir.actions.act_window">
+        <field name="name">Product Brands</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.brand</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_brand_tree_view" />
+    </record>
+
+    <menuitem
+    id="menu_product_brand"
+    name="Product Brands" 
+    action="product_brands_action"
+    parent="sale.product_menu_catalog" 
+    sequence="6"/>
+
+
+    <record id="product_model_tree_view" model="ir.ui.view">
+        <field name="name">product.model.view</field>
+        <field name="model">product.model</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <tree string="Product Models" editable="top">
+                <field name="name"/>
+                <field name="product_brand_id"/>
+                <field name="notes"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id="product_model_view_form" model="ir.ui.view">
+        <field name="name">product.model.view.form</field>
+        <field name="model">product.model</field>
+        <field name="arch" type="xml">
+            <form string="Product Model">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="product_brand_id"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="product_models_action" model="ir.actions.act_window">
+        <field name="name">Product Models</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.model</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_model_tree_view" />
+    </record>
+
+    <menuitem
+    id="menu_product_model"
+    name="Product Models" 
+    action="product_models_action"
+    parent="sale.product_menu_catalog" 
+    sequence="7"/>
+
+
+    <record id="product_tempalte_brand_inherit" model="ir.ui.view">
+        <field name="name">product.template.brand.view.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <field name="barcode" position="after">
+                <field name="product_brand_id"/>
+                <field name="product_model_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>
