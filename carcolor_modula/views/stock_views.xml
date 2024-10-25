@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright <YEAR(S)> <AUTHOR(S)>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="modula_action" model="ir.actions.client">
+            <field name="name">Modula Action</field>
+            <field name="tag">modula_action</field>
+        </record>
+
+    <record id="stock_odoo_moula" model="ir.ui.view">
+        <field name="name">Stock location Modula</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="inside">
+                <group string="Modula" groups="stock.group_adv_location">
+                    <field name="is_modula"/>           
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="stock_picking_form_modula" model="ir.ui.view">
+        <field name="name">stock.picking.form.modula</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="before">
+                <field name="modula"/>
+                <field name="modula_sync"/>
+                <field name="modula_result"/>
+            </field>
+            <xpath expr="//header" position="inside">
+                <button
+                    string="Sync Modula"
+                    name="sync_modula"
+                    type="object"
+                    invisible="modula_sync or not modula"
+                    class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
