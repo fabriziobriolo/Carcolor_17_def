@@ -143,6 +143,15 @@ class ModulaSyncClientAction extends Component {
     async syncModula() {
         try {
             const pickingData = this.getPickingData();
+
+            // Controlla che ci siano linee prima di procedere
+            if (!pickingData.lines || pickingData.lines.length === 0) {
+                this.notification.add("Nessuna linea da sincronizzare.", {
+                    type: "warning",
+                });
+                return; // Esce dalla funzione se non ci sono linee
+            }
+
             const formData = new FormData();
             const pickingDataString = JSON.stringify(pickingData);
             const blob = new Blob([pickingDataString], { type: "application/json" });
