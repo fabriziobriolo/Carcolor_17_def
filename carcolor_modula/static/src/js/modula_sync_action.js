@@ -76,18 +76,15 @@ class ModulaSyncClientAction extends Component {
                 });
 
                 this.productsMap = products.reduce((acc, product) => {
-                    acc[product.id] = product;
                     return acc;
                 }, {});
-
-                this.moves = filteredMoveLines;
 
                 // Recupera i dati delle ubicazioni
                 const locationIds = [
                     this.picking.location_id[0], 
                     this.picking.location_dest_id[0],
-                    ...moves.map(move => move.location_id[0]),
-                    ...moves.map(move => move.location_dest_id[0])
+                    ...filteredMoveLines.map(move => move.location_id[0]),
+                    ...filteredMoveLines.map(move => move.location_dest_id[0])
                 ];
                 const uniqueLocationIds = [...new Set(locationIds)];
                 
