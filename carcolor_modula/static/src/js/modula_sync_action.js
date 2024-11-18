@@ -44,7 +44,7 @@ class ModulaSyncClientAction extends Component {
 
                     // Recupera i dati delle linee di movimento
                     // Recupera i dati delle linee di movimento specifiche
-                const moveLineIds = this.picking.move_line_ids_without_package;
+                const moveLineIds = this.picking.move_line_ids;
                 const moveLines = await this.rpc("/web/dataset/call_kw", {
                     model: "stock.move.line",
                     method: "read",
