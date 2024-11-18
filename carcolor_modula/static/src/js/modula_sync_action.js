@@ -53,7 +53,7 @@ class ModulaSyncClientAction extends Component {
                 });
                 
                 // Recupera gli ID univoci delle ubicazioni sorgente e destinazione
-                const locationIds = [
+                const tmpLocationIds = [
                     ...new Set([
                         ...moveLines.map(line => line.location_id[0]),
                         ...moveLines.map(line => line.location_dest_id[0]),
@@ -61,15 +61,15 @@ class ModulaSyncClientAction extends Component {
                 ];
 
                 // Recupera i dati delle ubicazioni, inclusi i campi `modula`
-                const locations = await this.rpc("/web/dataset/call_kw", {
+                const tmpLocations = await this.rpc("/web/dataset/call_kw", {
                     model: "stock.location",
                     method: "read",
-                    args: [locationIds, ["id", "modula"]],
+                    args: [tmpLocationIds, ["id", "modula"]],
                     kwargs: {},
                 });
 
                 // Crea una mappa per accesso rapido alle informazioni delle ubicazioni
-                const locationModulaMap = locations.reduce((acc, loc) => {
+                const locationModulaMap = tmpLocations.reduce((acc, loc) => {
                     acc[loc.id] = loc.modula;
                     return acc;
                 }, {});
