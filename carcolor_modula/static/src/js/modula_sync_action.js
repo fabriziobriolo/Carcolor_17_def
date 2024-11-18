@@ -64,13 +64,13 @@ class ModulaSyncClientAction extends Component {
                 const tmpLocations = await this.rpc("/web/dataset/call_kw", {
                     model: "stock.location",
                     method: "read",
-                    args: [tmpLocationIds, ["id", "modula"]],
+                    args: [tmpLocationIds, ["id", "is_modula"]],
                     kwargs: {},
                 });
 
                 // Crea una mappa per accesso rapido alle informazioni delle ubicazioni
                 const locationModulaMap = tmpLocations.reduce((acc, loc) => {
-                    acc[loc.id] = loc.modula;
+                    acc[loc.id] = loc.is_modula;
                     return acc;
                 }, {});
 
