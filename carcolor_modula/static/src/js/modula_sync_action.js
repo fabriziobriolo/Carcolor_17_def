@@ -177,8 +177,8 @@ class ModulaSyncClientAction extends Component {
                 destination: this.locationsMap[line.location_dest_id[0]],
                 product_code: this.productsMap[line.product_id[0]].default_code,
                 product_name: this.productsMap[line.product_id[0]].name,
-                quantity_ordered: line.product_uom_qty,
-                quantity_done: line.quantity,
+                quantity_ordered: line.quantity,
+                quantity_done: line.qty_done,
             })),
         };
     }
