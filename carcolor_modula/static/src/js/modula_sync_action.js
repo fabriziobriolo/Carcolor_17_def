@@ -52,14 +52,36 @@ class ModulaSyncClientAction extends Component {
                     kwargs: {},
                 });
                 
-                // Filtra le righe in base a 'modula' e 'picking_type_id.code'
+                // Recupera gli ID univoci delle ubicazioni sorgente e destinazione
+                const locationIds = [
+                    ...new Set([
+                        ...moveLines.map(line => line.location_id[0]),
+                        ...moveLines.map(line => line.location_dest_id[0]),
+                    ]),
+                ];
+
+                // Recupera i dati delle ubicazioni, inclusi i campi `modula`
+                const locations = await this.rpc("/web/dataset/call_kw", {
+                    model: "stock.location",
+                    method: "read",
+                    args: [locationIds, ["id", "modula"]],
+                    kwargs: {},
+                });
+
+                // Crea una mappa per accesso rapido alle informazioni delle ubicazioni
+                const locationModulaMap = locations.reduce((acc, loc) => {
+                    acc[loc.id] = loc.modula;
+                    return acc;
+                }, {});
+
+                // Filtra le righe di movimento in base a `modula` e al tipo di picking
                 const filteredMoveLines = moveLines.filter(line => {
                     if (this.pickingType.code === "outgoing") {
-                        // Verifica il campo 'modula' per l'ubicazione di partenza
-                        return line.location_id && line.location_id[1].modula;
+                        // Verifica il campo `modula` per l'ubicazione di partenza
+                        return locationModulaMap[line.location_id[0]] === true;
                     } else {
-                        // Verifica il campo 'modula' per l'ubicazione di destinazione
-                        return line.location_dest_id && line.location_dest_id[1].modula;
+                        // Verifica il campo `modula` per l'ubicazione di destinazione
+                        return locationModulaMap[line.location_dest_id[0]] === true;
                     }
                 });
                 
