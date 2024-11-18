@@ -98,7 +98,10 @@ class ModulaSyncClientAction extends Component {
                 });
 
                 this.productsMap = products.reduce((acc, product) => {
-                    return acc;
+                    if (product.id) { // Verifica che il prodotto abbia un id
+                        acc[product.id] = product; // Aggiungi il prodotto alla mappa usando il suo id come chiave
+                    }
+                    return acc; // Restituisci l'accumulatore aggiornato
                 }, {});
 
                 // Recupera i dati delle ubicazioni
