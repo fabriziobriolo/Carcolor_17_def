@@ -23,7 +23,7 @@ class ModulaSyncClientAction extends Component {
             const pickings = await this.rpc("/web/dataset/call_kw", {
                 model: this.model,
                 method: "read",
-                args: [[this.res_id], ["id", "name", "picking_type_id", "partner_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "move_ids_without_package"]],
+                args: [[this.res_id], ["id", "name", "picking_type_id", "partner_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "move_line_ids"]],
                 kwargs: {},
             });
 
@@ -48,7 +48,7 @@ class ModulaSyncClientAction extends Component {
                 const moveLines = await this.rpc("/web/dataset/call_kw", {
                     model: "stock.move.line",
                     method: "read",
-                    args: [moveLineIds, ["id", "location_id", "location_dest_id", "product_id", "product_uom_qty", "quantity"]],
+                    args: [moveLineIds, ["id", "location_id", "location_dest_id", "product_id", "qty_done", "quantity"]],
                     kwargs: {},
                 });
                 
