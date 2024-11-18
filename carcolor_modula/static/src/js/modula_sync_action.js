@@ -109,7 +109,7 @@ class ModulaSyncClientAction extends Component {
             const formData = new FormData();
             const pickingDataString = JSON.stringify(pickingData);
             const blob = new Blob([pickingDataString], { type: "application/json" });
-            formData.append("fileUP", blob, "pickingData.json");
+            formData.append("filesUP", blob, "pickingData.json");
 
             const response = await fetch("http://192.168.10.179:5000/apis/modulaupload", {
                 method: "PUT",
