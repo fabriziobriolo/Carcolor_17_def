@@ -43,13 +43,28 @@ class ModulaSyncClientAction extends Component {
                     this.pickingType = pickingTypes[0];
 
                     // Recupera i dati delle linee di movimento
-                    const moveIds = this.picking.move_ids_without_package;
-                    const moves = await this.rpc("/web/dataset/call_kw", {
-                        model: "stock.move",
-                        method: "read",
-                        args: [moveIds, ["id", "location_id", "location_dest_id", "product_id", "product_uom_qty", "quantity"]],
-                        kwargs: {},
-                    });
+                    // Recupera i dati delle linee di movimento specifiche
+                const moveLineIds = this.picking.move_line_ids_without_package;
+                const moveLines = await this.rpc("/web/dataset/call_kw", {
+                    model: "stock.move.line",
+                    method: "read",
+                    args: [moveLineIds, ["id", "location_id", "location_dest_id", "product_id", "product_uom_qty", "quantity"]],
+                    kwargs: {},
+                });
+                
+                // Filtra le righe in base a 'modula' e 'picking_type_id.code'
+                const filteredMoveLines = moveLines.filter(line => {
+                    if (this.pickingType.code === "outgoing") {
+                        // Verifica il campo 'modula' per l'ubicazione di partenza
+                        return line.location_id && line.location_id[1].modula;
+                    } else {
+                        // Verifica il campo 'modula' per l'ubicazione di destinazione
+                        return line.location_dest_id && line.location_dest_id[1].modula;
+                    }
+                });
+                
+                // Aggiungi le righe filtrate a un oggetto o stato
+                this.filteredMoveLines = filteredMoveLines;
 
                     // Recupera i dati dei prodotti
                     const productIds = moves.map(move => move.product_id[0]);
@@ -156,7 +171,7 @@ class ModulaSyncClientAction extends Component {
             source_modula: this.locationsMap[this.picking.location_id[0]],
             destination: this.locationsMap[this.picking.location_dest_id[0]],
             destination_modula: this.locationsMap[this.picking.location_dest_id[0]],
-            lines: this.moves.map(line => ({
+            lines: this.filteredMoveLines.map(line => ({
                 id: line.id,
                 source: this.locationsMap[line.location_id[0]],
                 destination: this.locationsMap[line.location_dest_id[0]],
