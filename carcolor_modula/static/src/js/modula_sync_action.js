@@ -111,7 +111,7 @@ class ModulaSyncClientAction extends Component {
             const blob = new Blob([pickingDataString], { type: "application/json" });
             formData.append("fileUP", blob, "pickingData.json");
 
-            const response = await fetch("http://localhost:5000/apis/modulaupload", {
+            const response = await fetch("http://192.168.10.179:5000/apis/modulaupload", {
                 method: "POST",
                 body: formData,
             });
