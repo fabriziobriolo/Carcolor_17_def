@@ -66,44 +66,44 @@ class ModulaSyncClientAction extends Component {
                 // Aggiungi le righe filtrate a un oggetto o stato
                 this.filteredMoveLines = filteredMoveLines;
 
-                    // Recupera i dati dei prodotti
-                    const productIds = moves.map(move => move.product_id[0]);
-                    const products = await this.rpc("/web/dataset/call_kw", {
-                        model: "product.product",
-                        method: "read",
-                        args: [productIds, ["id", "default_code", "name"]],
-                        kwargs: {},
-                    });
+                // Recupera i dati dei prodotti
+                const productIds = filteredMoveLines.map(move => move.product_id[0]);
+                const products = await this.rpc("/web/dataset/call_kw", {
+                    model: "product.product",
+                    method: "read",
+                    args: [productIds, ["id", "default_code", "name"]],
+                    kwargs: {},
+                });
 
-                    this.productsMap = products.reduce((acc, product) => {
-                        acc[product.id] = product;
-                        return acc;
-                    }, {});
+                this.productsMap = products.reduce((acc, product) => {
+                    acc[product.id] = product;
+                    return acc;
+                }, {});
 
-                    this.moves = moves;
+                this.moves = filteredMoveLines;
 
-                    // Recupera i dati delle ubicazioni
-                    const locationIds = [
-                        this.picking.location_id[0], 
-                        this.picking.location_dest_id[0],
-                        ...moves.map(move => move.location_id[0]),
-                        ...moves.map(move => move.location_dest_id[0])
-                    ];
-                    const uniqueLocationIds = [...new Set(locationIds)];
-                    
-                    const locations = await this.rpc("/web/dataset/call_kw", {
-                        model: "stock.location",
-                        method: "read",
-                        args: [uniqueLocationIds, ["id", "name"]],
-                        kwargs: {},
-                    });
+                // Recupera i dati delle ubicazioni
+                const locationIds = [
+                    this.picking.location_id[0], 
+                    this.picking.location_dest_id[0],
+                    ...moves.map(move => move.location_id[0]),
+                    ...moves.map(move => move.location_dest_id[0])
+                ];
+                const uniqueLocationIds = [...new Set(locationIds)];
+                
+                const locations = await this.rpc("/web/dataset/call_kw", {
+                    model: "stock.location",
+                    method: "read",
+                    args: [uniqueLocationIds, ["id", "name"]],
+                    kwargs: {},
+                });
 
-                    this.locationsMap = locations.reduce((acc, loc) => {
-                        acc[loc.id] = loc.name;
-                        return acc;
-                    }, {});
+                this.locationsMap = locations.reduce((acc, loc) => {
+                    acc[loc.id] = loc.name;
+                    return acc;
+                }, {});
 
-                    this.syncModula();
+                this.syncModula();
                 } else {
                     throw new Error("Unable to retrieve picking type data.");
                 }
