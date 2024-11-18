@@ -122,7 +122,7 @@ class ModulaSyncClientAction extends Component {
             
             const data = await response.json();
             if (data && data.status) {
-                const result = data.status;
+                const result = data.message;
                 this.notification.add(result, {
                     type: "success",
                 });
