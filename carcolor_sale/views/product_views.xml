@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="product_brand_tree_view" model="ir.ui.view">
-        <field name="name">product.brand.tree.view</field>
+    <record id="product_brand_list_view" model="ir.ui.view">
+        <field name="name">product.brand.list.view</field>
         <field name="model">product.brand</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
@@ -31,8 +31,8 @@
         <field name="name">Product Brands</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.brand</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="product_brand_tree_view" />
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="product_brand_list_view" />
     </record>
 
     <menuitem
@@ -43,16 +43,16 @@
     sequence="6"/>
 
 
-    <record id="product_model_tree_view" model="ir.ui.view">
+    <record id="product_mode_list_view" model="ir.ui.view">
         <field name="name">product.model.view</field>
         <field name="model">product.model</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
-            <tree string="Product Models" editable="top">
+            <list string="Product Models" editable="top">
                 <field name="name"/>
                 <field name="product_brand_id"/>
                 <field name="notes"/>
-                </tree>
+            </list>
         </field>
     </record>
 
@@ -76,8 +76,8 @@
         <field name="name">Product Models</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.model</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="product_model_tree_view" />
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="product_model_list_view" />
     </record>
 
     <menuitem
