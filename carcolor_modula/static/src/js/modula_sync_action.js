@@ -49,7 +49,7 @@ class ModulaSyncClientAction extends Component {
                 const moveLines = await rpc("/web/dataset/call_kw", {
                     model: "stock.move.line",
                     method: "read",
-                    args: [moveLineIds, ["id", "location_id", "location_dest_id", "product_id", "qty_done", "quantity"]],
+                    args: [moveLineIds, ["id", "location_id", "location_dest_id", "product_id", "quantity_product_uom", "quantity"]],
                     kwargs: {},
                 });
                 
