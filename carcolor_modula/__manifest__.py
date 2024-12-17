@@ -2,7 +2,7 @@
 {
     "name": "Modula api",
     "summary": "Modulo connettore modula odoo",
-    "version": "17.0.1.1.1",
+    "version": "18.0.1.0.0",
     "category": "Carcolor",
     "website": "",
     "author": "Carcolor",
