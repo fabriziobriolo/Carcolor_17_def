@@ -2,7 +2,7 @@
 {
     "name": "Carcolor - Sale",
     "summary": "Personalizzazioni su vendite e listini",
-    "version": "17.0.1.0.2",
+    "version": "18.0.1.0.0",
     "category": "Carcolor",
     "website": "",
     "author": "Carcolor",
