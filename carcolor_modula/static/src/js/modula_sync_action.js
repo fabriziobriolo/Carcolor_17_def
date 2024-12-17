@@ -9,7 +9,7 @@ class ModulaSyncClientAction extends Component {
     setup() {
         this.notification = useService("notification");
         this.action = useService("action");
-        this.rpc = useService("rpc");
+        //this.rpc = useService("rpc");
 
         const { context } = this.props.action;
         this.model = context.active_model;
@@ -21,7 +21,7 @@ class ModulaSyncClientAction extends Component {
     async loadPickingData() {
         try {
             // Recupera i dati del picking
-            const pickings = await this.rpc("/web/dataset/call_kw", {
+            const pickings = await rpc("/web/dataset/call_kw", {
                 model: this.model,
                 method: "read",
                 args: [[this.res_id], ["id", "name", "picking_type_id", "partner_id", "location_id", "location_dest_id", "scheduled_date", "date_done", "move_line_ids"]],
@@ -33,7 +33,7 @@ class ModulaSyncClientAction extends Component {
 
                 // Recupera i dati del picking type
                 const pickingTypeId = this.picking.picking_type_id[0];
-                const pickingTypes = await this.rpc("/web/dataset/call_kw", {
+                const pickingTypes = await rpc("/web/dataset/call_kw", {
                     model: "stock.picking.type",
                     method: "read",
                     args: [[pickingTypeId], ["id", "code"]],
@@ -46,7 +46,7 @@ class ModulaSyncClientAction extends Component {
                     // Recupera i dati delle linee di movimento
                     // Recupera i dati delle linee di movimento specifiche
                 const moveLineIds = this.picking.move_line_ids;
-                const moveLines = await this.rpc("/web/dataset/call_kw", {
+                const moveLines = await rpc("/web/dataset/call_kw", {
                     model: "stock.move.line",
                     method: "read",
                     args: [moveLineIds, ["id", "location_id", "location_dest_id", "product_id", "qty_done", "quantity"]],
@@ -62,7 +62,7 @@ class ModulaSyncClientAction extends Component {
                 ];
 
                 // Recupera i dati delle ubicazioni, inclusi i campi `modula`
-                const tmpLocations = await this.rpc("/web/dataset/call_kw", {
+                const tmpLocations = await rpc("/web/dataset/call_kw", {
                     model: "stock.location",
                     method: "read",
                     args: [tmpLocationIds, ["id", "is_modula"]],
@@ -91,7 +91,7 @@ class ModulaSyncClientAction extends Component {
 
                 // Recupera i dati dei prodotti
                 const productIds = filteredMoveLines.map(move => move.product_id[0]);
-                const products = await this.rpc("/web/dataset/call_kw", {
+                const products = await rpc("/web/dataset/call_kw", {
                     model: "product.product",
                     method: "read",
                     args: [productIds, ["id", "default_code", "name"]],
@@ -114,7 +114,7 @@ class ModulaSyncClientAction extends Component {
                 ];
                 const uniqueLocationIds = [...new Set(locationIds)];
                 
-                const locations = await this.rpc("/web/dataset/call_kw", {
+                const locations = await rpc("/web/dataset/call_kw", {
                     model: "stock.location",
                     method: "read",
                     args: [uniqueLocationIds, ["id", "name"]],
@@ -174,7 +174,7 @@ class ModulaSyncClientAction extends Component {
                     type: "success",
                 });
                 // Imposta modula_sync a True
-                await this.rpc("/web/dataset/call_kw", {
+                await rpc("/web/dataset/call_kw", {
                     model: this.model,
                     method: "write",
                     args: [[this.res_id], { modula_sync: true }],
