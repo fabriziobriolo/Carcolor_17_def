@@ -3,6 +3,7 @@
 import { registry } from "@web/core/registry";
 import { Component } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
+import { rpc } from "@web/core/network/rpc";
 
 class ModulaSyncClientAction extends Component {
     setup() {
