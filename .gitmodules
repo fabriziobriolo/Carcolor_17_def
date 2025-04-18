@@ -1,0 +1,4 @@
+[submodule "dubheit/db_reporting_carbone"]
+	path = dubheit/db_reporting_carbone
+	url = git@github.com:dubheit/db_reporting_carbone.git
+	branch = 18.0
