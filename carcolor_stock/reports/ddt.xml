@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="l10n_it_stock_ddt.action_report_ddt" model="ir.actions.report">
+        <field name="name">DDT</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">carbone</field>
+        <field name="carbone_report_type">pdf</field>
+        <field name="report_name">carcolor_stock.report_ddt</field>
+        <field name="report_file">report_ddt</field>
+        <field name="print_report_name">'DDT - %s - %s' % (object.partner_id.name or '', object.l10n_it_ddt_number)</field>
+        <field name="carbone_json_data">{
+    "number": object.l10n_it_ddt_number,
+    "date": object.date_done.strftime('%d/%m/%Y'),
+    "transport_method": dict(object.fields_get(allfields=['l10n_it_transport_method'])['l10n_it_transport_method']['selection'])[object.l10n_it_transport_method],
+    "transport_reason": dict(object.fields_get(allfields=['l10n_it_transport_reason'])['l10n_it_transport_reason']['selection'])[object.l10n_it_transport_reason],
+    "parcels": object.l10n_it_parcels,
+    "weight": object.weight,
+    "partner":
+        {
+            "name": object.partner_id.commercial_partner_id.name or "",
+            "street": object.partner_id.commercial_partner_id.street or "",
+            "zip": object.partner_id.commercial_partner_id.zip or "",
+            "city": object.partner_id.commercial_partner_id.city or "",
+            "prov": object.partner_id.commercial_partner_id.state_id.code or "",
+            "vat": object.partner_id.commercial_partner_id.vat or "",
+            "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or "",
+            "ref": object.partner_id.commercial_partner_id.ref or ""
+        },
+    "shipping_address":
+        {
+            "name": object.partner_id.name or "",
+            "street": object.partner_id.street or "",
+            "zip": object.partner_id.zip or "",
+            "city": object.partner_id.city or "",
+            "prov": object.partner_id.state_id.code or "",
+            "vat": object.partner_id.vat or "",
+            "cf": object.partner_id.l10n_it_codice_fiscale or object.partner_id.vat or "",
+            "ref": object.partner_id.ref or ""
+        },
+    "lines":
+        [
+            {
+                "product":
+                    {
+                        "name": l.product_id.name,
+                        "code": l.product_id.default_code,
+                        "uom": l.product_uom.name,
+                        "qty": l.quantity
+                    }
+            }
+            for l in object.move_ids_without_package
+        ] if object.move_ids_without_package else [],
+    "company":
+        {
+            "name": object.company_id.name,
+            "cf": object.company_id.partner_id.l10n_it_codice_fiscale or object.company_id.partner_id.vat or "",
+            "vat": object.company_id.partner_id.vat or "",
+            "street": object.company_id.partner_id.street or "",
+            "zip": object.company_id.partner_id.zip or "",
+            "city": object.company_id.partner_id.city or "",
+            "prov": object.company_id.partner_id.state_id.code or "",
+        }
+}
+        </field>
+    </record>
+</odoo>
