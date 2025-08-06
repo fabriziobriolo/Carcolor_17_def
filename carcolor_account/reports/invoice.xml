@@ -44,6 +44,8 @@
         for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
     ] if object.invoice_line_ids else []
 }</field>
+    </record>
+
     <record id="account.account_invoices_without_payment" model="ir.actions.report">
         <field name="report_type">carbone</field>
         <field name="carbone_report_type">pdf</field>
