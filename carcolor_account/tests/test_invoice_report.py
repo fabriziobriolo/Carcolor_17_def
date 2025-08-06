@@ -58,6 +58,7 @@ class TestInvoiceReport(TransactionCase):
         self.assertIn('bank', json_data)
         self.assertIn('iban', json_data)
         self.assertIn('payment_terms', json_data)
+        self.assertIn('taxes', json_data)
         
         # Verifica i dati principali
         self.assertEqual(json_data['number'], self.invoice.name)

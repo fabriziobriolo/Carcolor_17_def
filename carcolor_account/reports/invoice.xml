@@ -28,8 +28,7 @@
         "city": object.partner_id.commercial_partner_id.city or "",
         "prov": object.partner_id.commercial_partner_id.state_id.code or "",
         "vat": object.partner_id.commercial_partner_id.vat or "",
-        "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or "",
-        "ref": object.partner_id.commercial_partner_id.ref or ""
+        "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or ""
     },
     "lines": [
         {
@@ -42,7 +41,13 @@
             }
         }
         for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
-    ] if object.invoice_line_ids else []
+    ] if object.invoice_line_ids else [],
+    "taxes": [
+        {
+            "code": tax[0] or ""
+        }
+        for tax in object.amount_by_group
+    ] if object.amount_by_group else []
 }</field>
     </record>
 
@@ -73,8 +78,7 @@
         "city": object.partner_id.commercial_partner_id.city or "",
         "prov": object.partner_id.commercial_partner_id.state_id.code or "",
         "vat": object.partner_id.commercial_partner_id.vat or "",
-        "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or "",
-        "ref": object.partner_id.commercial_partner_id.ref or ""
+        "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or ""
     },
     "lines": [
         {
@@ -87,7 +91,13 @@
             }
         }
         for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
-    ] if object.invoice_line_ids else []
+    ] if object.invoice_line_ids else [],
+    "taxes": [
+        {
+            "code": tax[0] or ""
+        }
+        for tax in object.amount_by_group
+    ] if object.amount_by_group else []
 }</field>
     </record>
 
