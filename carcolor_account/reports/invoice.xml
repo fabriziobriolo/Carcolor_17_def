@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="account.account_invoices" model="ir.actions.report">
+        <field name="report_type">carbone</field>
+        <field name="carbone_report_type">pdf</field>
+        <field name="carbone_template_file" type="base64" file="carcolor_account/reports/templates/invoice.docx"/>
+        <field name="carbone_json_data">{
+    "d": {
+        "company": {
+            "name": object.company_id.name,
+            "cf": object.company_id.partner_id.l10n_it_codice_fiscale or object.company_id.partner_id.vat or "",
+            "vat": object.company_id.partner_id.vat or "",
+            "street": object.company_id.partner_id.street or "",
+            "zip": object.company_id.partner_id.zip or "",
+            "city": object.company_id.partner_id.city or "",
+            "prov": object.company_id.partner_id.state_id.code or "",
+            "phone": object.company_id.partner_id.phone or ""
+        },
+        "partner": {
+            "name": object.partner_id.commercial_partner_id.name or "",
+            "street": object.partner_id.commercial_partner_id.street or "",
+            "zip": object.partner_id.commercial_partner_id.zip or "",
+            "city": object.partner_id.commercial_partner_id.city or "",
+            "prov": object.partner_id.commercial_partner_id.state_id.code or "",
+            "vat": object.partner_id.commercial_partner_id.vat or "",
+            "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or ""
+        },
+        "lines": [
+            {
+                "product": {
+                    "code": line.product_id.default_code or "",
+                    "name": line.name or line.product_id.name or "",
+                    "uom": line.product_uom_id.name or "",
+                    "qty": line.quantity,
+                    "lots": ""
+                }
+            }
+            for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
+        ] if object.invoice_line_ids else []
+    }
+}</field>
+    </record>
+
+    <record id="account.account_invoices_without_payment" model="ir.actions.report">
+        <field name="report_type">carbone</field>
+        <field name="carbone_report_type">pdf</field>
+        <field name="carbone_template_file" type="base64" file="carcolor_account/reports/templates/invoice.docx"/>
+        <field name="carbone_json_data">{
+    "d": {
+        "company": {
+            "name": object.company_id.name,
+            "cf": object.company_id.partner_id.l10n_it_codice_fiscale or object.company_id.partner_id.vat or "",
+            "vat": object.company_id.partner_id.vat or "",
+            "street": object.company_id.partner_id.street or "",
+            "zip": object.company_id.partner_id.zip or "",
+            "city": object.company_id.partner_id.city or "",
+            "prov": object.company_id.partner_id.state_id.code or "",
+            "phone": object.company_id.partner_id.phone or ""
+        },
+        "partner": {
+            "name": object.partner_id.commercial_partner_id.name or "",
+            "street": object.partner_id.commercial_partner_id.street or "",
+            "zip": object.partner_id.commercial_partner_id.zip or "",
+            "city": object.partner_id.commercial_partner_id.city or "",
+            "prov": object.partner_id.commercial_partner_id.state_id.code or "",
+            "vat": object.partner_id.commercial_partner_id.vat or "",
+            "cf": object.partner_id.commercial_partner_id.l10n_it_codice_fiscale or object.partner_id.commercial_partner_id.vat or ""
+        },
+        "lines": [
+            {
+                "product": {
+                    "code": line.product_id.default_code or "",
+                    "name": line.name or line.product_id.name or "",
+                    "uom": line.product_uom_id.name or "",
+                    "qty": line.quantity,
+                    "lots": ""
+                }
+            }
+            for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
+        ] if object.invoice_line_ids else []
+    }
+}</field>
+    </record>
+
+</odoo>
