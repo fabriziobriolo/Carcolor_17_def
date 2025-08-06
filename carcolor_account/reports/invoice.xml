@@ -37,17 +37,28 @@
                 "name": line.name or line.product_id.name or "",
                 "uom": line.product_uom_id.name or "",
                 "qty": line.quantity,
+                "unit_price": line.price_unit,
                 "lots": ""
-            }
+            },
+            "discount": line.discount if line.discount else "",
+            "amount_untaxed": line.price_subtotal,
+            "vat_code": line.tax_ids and line.tax_ids[0].name or ""
         }
         for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
     ] if object.invoice_line_ids else [],
     "taxes": [
         {
-            "code": tax[0] or ""
+            "code": tax_line.tax_line_id.name or "",
+            "name": tax_line.tax_line_id.name or "",
+            "tax_amount": abs(tax_line.balance),
+            "tax_base_amount": tax_line.tax_base_amount,
+            "tax_total_amount": tax_line.tax_base_amount + abs(tax_line.balance)
         }
-        for tax in object.amount_by_group
-    ] if object.amount_by_group else []
+        for tax_line in object.line_ids.filtered(lambda l: l.tax_line_id)
+    ],
+    "amount_untaxed": object.amount_untaxed,
+    "amount_tax": object.amount_tax,
+    "amount_total": object.amount_total
 }</field>
     </record>
 
@@ -87,17 +98,28 @@
                 "name": line.name or line.product_id.name or "",
                 "uom": line.product_uom_id.name or "",
                 "qty": line.quantity,
+                "unit_price": line.price_unit,
                 "lots": ""
-            }
+            },
+            "discount": line.discount if line.discount else "",
+            "amount_untaxed": line.price_subtotal,
+            "vat_code": line.tax_ids and line.tax_ids[0].name or ""
         }
         for line in object.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section', 'line_note'))
     ] if object.invoice_line_ids else [],
     "taxes": [
         {
-            "code": tax[0] or ""
+            "code": tax_line.tax_line_id.name or "",
+            "name": tax_line.tax_line_id.name or "",
+            "tax_amount": abs(tax_line.balance),
+            "tax_base_amount": tax_line.tax_base_amount,
+            "tax_total_amount": tax_line.tax_base_amount + abs(tax_line.balance)
         }
-        for tax in object.amount_by_group
-    ] if object.amount_by_group else []
+        for tax_line in object.line_ids.filtered(lambda l: l.tax_line_id)
+    ],
+    "amount_untaxed": object.amount_untaxed,
+    "amount_tax": object.amount_tax,
+    "amount_total": object.amount_total
 }</field>
     </record>
 
