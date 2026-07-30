@@ -54,8 +54,8 @@
                         "lots": l.lot_ids and ",".join([lot.name for lot in l.lot_ids]) or ""
                     }
             }
-            for l in object.move_ids_without_package
-        ] if object.move_ids_without_package else [],
+            for l in object.move_ids
+        ] if object.move_ids else [],
     "company":
         {
             "name": object.company_id.name,

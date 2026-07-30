@@ -2,14 +2,14 @@
 {
     "name": "Carcolor - Account",
     "summary": "Personalizzazioni su contabilità e amministrazione",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.0",
     "category": "Carcolor",
     "website": "",
     "author": "Carcolor",
     "license": "AGPL-3",
     "depends": [
         "l10n_it_stock_ddt",
-        "db_reporting_carbone",
+        "dub_reporting_carbone",
         "account",
     ],
     "data": [

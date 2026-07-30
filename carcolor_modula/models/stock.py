@@ -16,11 +16,11 @@ class StockPicking(models.Model):
     modula_sync = fields.Boolean(string="Sync Modula")
     modula_result = fields.Text(string="Modula Result")
 
-    @api.depends('move_ids_without_package')
+    @api.depends('move_ids')
     def _compute_modula(self):
         for rec in self:
             modula = False
-            for line in rec.move_line_ids_without_package:
+            for line in rec.move_line_ids:
                 if (line.location_id.is_modula or
                         line.location_dest_id.is_modula):
                     modula = True
@@ -49,7 +49,7 @@ class StockPicking(models.Model):
         json_data['partner'] = self.partner_id.name
         json_data['operation'] = self.picking_type_id.code
         json_data['lines'] = []
-        for line in self.move_ids_without_package:
+        for line in self.move_ids:
             line_data = {}
             line_data['id'] = line.id
             line_data['source'] = source.barcode or source.name
@@ -77,7 +77,7 @@ class StockPicking(models.Model):
             json_data = json.loads(response.content)
             if json_data['result'] == 1:
                 for line in json_data['lines']:
-                    self.move_ids_without_package.browse(
+                    self.move_ids.browse(
                         line['id']).quantity_done = line['quantity_done']
                 self.modula_sync = True
             else:
