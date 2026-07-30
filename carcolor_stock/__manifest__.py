@@ -2,14 +2,14 @@
 {
     "name": "Carcolor - Stock",
     "summary": "Personalizzazioni su magazzino",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Carcolor",
     "website": "",
     "author": "Carcolor",
     "license": "AGPL-3",
     "depends": [
         "l10n_it_stock_ddt",
-        "db_reporting_carbone",
+        "dub_reporting_carbone",
     ],
     "data": [
         "reports/ddt.xml",
